@@ -7,6 +7,11 @@ void init_vector(float *vec, int n) {
   }
 }
 
+void init_matrix(float *mat, int m, int n) {
+  int num_elements = m * n;
+  init_vector(mat, num_elements);
+}
+
 // Function to measure execution time
 double get_time() {
   struct timespec ts;

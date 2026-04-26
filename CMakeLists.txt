@@ -21,3 +21,17 @@ target_include_directories(vector_add_bench PRIVATE
 set_target_properties(vector_add_bench PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
+
+add_executable(matrix_multiply_bench
+    src/matrix_multiply_bench.cu
+    src/matrix_multiply.cu
+    src/cuda_utils.cu
+)
+
+target_include_directories(matrix_multiply_bench PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set_target_properties(matrix_multiply_bench PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)

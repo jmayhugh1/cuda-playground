@@ -1,4 +1,3 @@
-#include "cuda_utils.cuh"
 #include <cuda_runtime.h>
 
 void vector_add_cpu(float *a, float *b, float *c, int n) {
