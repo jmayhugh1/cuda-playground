@@ -30,9 +30,9 @@ int main() {
   cudaMemcpy(d_b, h_b, size, cudaMemcpyHostToDevice);
 
   // Define grid and block dimensions
-  int num_blocks = (N + BLOCK_SIZE - 1) / BLOCK_SIZE;
+  int num_blocks = CEIL_DIV(N, BLOCK_SIZE);
   // N = 1024, BLOCK_SIZE = 256, num_blocks = 4
-  // (N + BLOCK_SIZE - 1) / BLOCK_SIZE = ( (1025 + 256 - 1) / 256 ) = 1280 / 256
+  // CEIL_DIV(1025, 256) = 1280 / 256
   // = 4 rounded
 
   // Warm-up runs

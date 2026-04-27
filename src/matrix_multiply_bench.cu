@@ -49,8 +49,8 @@ int main() {
   }
 
   dim3 threads_per_block(16, 16);
-  dim3 num_blocks((n + threads_per_block.x - 1) / threads_per_block.x,
-                  (m + threads_per_block.y - 1) / threads_per_block.y);
+  dim3 num_blocks(CEIL_DIV(n, threads_per_block.x),
+                  CEIL_DIV(m, threads_per_block.y));
 
   printf("Performing warm-up runs...\n");
   for (int i = 0; i < 3; i++) {

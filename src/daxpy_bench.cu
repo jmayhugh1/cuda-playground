@@ -31,7 +31,7 @@ int main() {
   cudaMemcpy(d_x, h_x, size, cudaMemcpyHostToDevice);
   cudaMemcpy(d_y, h_y_gpu, size, cudaMemcpyHostToDevice);
 
-  int num_blocks = (N + BLOCK_SIZE - 1) / BLOCK_SIZE;
+  int num_blocks = CEIL_DIV(N, BLOCK_SIZE);
 
   printf("Performing warm-up runs...\n");
   for (int i = 0; i < 3; i++) {
