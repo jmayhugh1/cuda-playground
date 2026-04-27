@@ -35,3 +35,17 @@ target_include_directories(matrix_multiply_bench PRIVATE
 set_target_properties(matrix_multiply_bench PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
+
+add_executable(daxpy_bench
+    src/daxpy_bench.cu
+    src/daxpy.cu
+    src/cuda_utils.cu
+)
+
+target_include_directories(daxpy_bench PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set_target_properties(daxpy_bench PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)
