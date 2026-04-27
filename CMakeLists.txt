@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.18)
 
 project(cuda_playground LANGUAGES CXX CUDA)
 
+find_package(CUDAToolkit REQUIRED)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -47,5 +49,21 @@ target_include_directories(daxpy_bench PRIVATE
 )
 
 set_target_properties(daxpy_bench PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)
+
+add_executable(mc_option_pricing_bench
+    src/mc_option_pricing_bench.cu
+    src/mc_option_pricing.cu
+    src/cuda_utils.cu
+)
+
+target_include_directories(mc_option_pricing_bench PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(mc_option_pricing_bench PRIVATE CUDA::curand)
+
+set_target_properties(mc_option_pricing_bench PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
