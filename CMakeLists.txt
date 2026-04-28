@@ -67,3 +67,17 @@ target_link_libraries(mc_option_pricing_bench PRIVATE CUDA::curand)
 set_target_properties(mc_option_pricing_bench PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
+
+add_executable(matrix_add_bench
+    src/matrix_add_bench.cu
+    src/matrix_add.cu
+    src/cuda_utils.cu
+)
+
+target_include_directories(matrix_add_bench PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set_target_properties(matrix_add_bench PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)

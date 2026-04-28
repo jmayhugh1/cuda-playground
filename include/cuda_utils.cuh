@@ -11,3 +11,8 @@ void init_matrix(float *mat, int m, int n);
 
 // Function to measure execution time
 double get_time();
+
+// Matrix indexing helper for flattened row-major storage.
+int flattened_matrix_index(int i, int j, int m, int n);
+
+float *flatten_matrix(float **matrix, int m, int n);
