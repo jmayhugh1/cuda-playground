@@ -1,3 +1,4 @@
+#include "cuda_utils.cuh"
 #include "mc_option_pricing.cuh"
 
 #include <cuda_runtime.h>
@@ -42,8 +43,8 @@ __global__ void mc_european_call_kernel(double S0, double K, double sigma,
 
 } // namespace
 
-double monte_carlo_european_call_cpu(double S0, double K, double sigma, double T,
-                                     double r, int paths) {
+double monte_carlo_european_call_cpu(double S0, double K, double sigma,
+                                     double T, double r, int paths) {
   double sum_payoff = 0.0;
   for (int i = 0; i < paths; i++) {
     double Z = box_muller_gaussian();
@@ -64,7 +65,7 @@ void monte_carlo_european_call_gpu(double S0, double K, double sigma, double T,
   cudaMemset(d_sum, 0, sizeof(float));
 
   constexpr int block_size = 256;
-  int grid = (paths + block_size - 1) / block_size;
+  int grid = CEIL_DIV(static_cast<float>(paths), block_size);
 
   mc_european_call_kernel<<<grid, block_size>>>(S0, K, sigma, T, r, paths, seed,
                                                 d_sum);
