@@ -37,7 +37,7 @@ __global__ void matrix_add_gpu_kernel(float *a, float *b, float *c, int m,
 void matrix_add_gpu(const float *a, const float *b, float *c, int m, int n) {
   int num_elements = m * n;
   size_t bytes = sizeof(float) * num_elements;
-  dim3 threads_per_block(16, 16);
+  dim3 threads_per_block(32, 32);
   dim3 num_blocks(CEIL_DIV(n, threads_per_block.x),
                   CEIL_DIV(m, threads_per_block.y));
 
