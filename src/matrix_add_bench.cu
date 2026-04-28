@@ -5,32 +5,24 @@
 #include <stdlib.h>
 #include <time.h>
 
-static float **alloc_matrix_2d(int m, int n) {
-  float **rows = (float **)malloc(sizeof(float *) * m);
-  float *data = (float *)malloc(sizeof(float) * m * n);
-  for (int i = 0; i < m; i++) {
-    rows[i] = data + i * n;
-  }
-  return rows;
-}
-
-static void free_matrix_2d(float **matrix) {
-  free(matrix[0]);
-  free(matrix);
+static float *alloc_matrix(int m, int n) {
+  return (float *)malloc(sizeof(float) * m * n);
 }
 
 int main() {
-  int m = 1 << 10;
-  int n = 1 << 10;
+  // Use a larger matrix to better expose GPU throughput.
+  int m = 6144;
+  int n = 6144;
 
-  float **a = alloc_matrix_2d(m, n);
-  float **b = alloc_matrix_2d(m, n);
-  float **c_cpu = alloc_matrix_2d(m, n);
-  float **c_gpu = alloc_matrix_2d(m, n);
+  float *a = alloc_matrix(m, n);
+  float *b = alloc_matrix(m, n);
+  float *c_cpu = alloc_matrix(m, n);
+  float *c_gpu = alloc_matrix(m, n);
 
   srand(time(NULL));
-  init_matrix(a[0], m, n);
-  init_matrix(b[0], m, n);
+  init_matrix(a, m, n);
+  init_matrix(b, m, n);
+  printf("Matrix size: %d x %d (%d elements)\n", m, n, m * n);
 
   printf("Performing warm-up runs...\n");
   for (int i = 0; i < 3; i++) {
@@ -63,19 +55,17 @@ int main() {
   printf("Speedup: %fx\n", cpu_avg_time / gpu_avg_time);
 
   bool correct = true;
-  for (int i = 0; i < m && correct; i++) {
-    for (int j = 0; j < n; j++) {
-      if (fabs(c_cpu[i][j] - c_gpu[i][j]) > 1e-5f) {
-        correct = false;
-        break;
-      }
+  for (int i = 0; i < m * n; i++) {
+    if (fabs(c_cpu[i] - c_gpu[i]) > 1e-5f) {
+      correct = false;
+      break;
     }
   }
   printf("Results are %s\n", correct ? "correct" : "incorrect");
 
-  free_matrix_2d(a);
-  free_matrix_2d(b);
-  free_matrix_2d(c_cpu);
-  free_matrix_2d(c_gpu);
+  free(a);
+  free(b);
+  free(c_cpu);
+  free(c_gpu);
   return 0;
 }
