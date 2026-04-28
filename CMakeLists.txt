@@ -81,3 +81,18 @@ target_include_directories(matrix_add_bench PRIVATE
 set_target_properties(matrix_add_bench PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
+
+add_executable(linear_regression_ols_bench
+    src/linear_regression_ols_bench.cu
+    src/linear_regression_ols.cu
+    src/matrix_multiply.cu
+    src/cuda_utils.cu
+)
+
+target_include_directories(linear_regression_ols_bench PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+set_target_properties(linear_regression_ols_bench PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)
